@@ -87,7 +87,7 @@ export function CompteRenduDialog({ open, onOpenChange, compteRendu }: CompteRen
           <DialogTitle>{compteRendu ? 'Modifier le compte-rendu' : 'Nouveau compte-rendu'}</DialogTitle>
           <DialogDescription>Réunion du bureau exécutif - visible par tous les membres.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[70vh] space-y-4 overflow-y-auto pr-1">
           <div className="space-y-1.5">
             <Label htmlFor="titre">Titre</Label>
             <Input id="titre" placeholder="Ex: Réunion du bureau - Août 2026" {...register('titre')} />

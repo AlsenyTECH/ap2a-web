@@ -150,7 +150,7 @@ function SuiviGeneriqueDialog({
             {beneficiaire ? `${beneficiaire.prenom} ${beneficiaire.nom}` : ''} — mettre à jour le statut et l'aide reçue.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[70vh] space-y-4 overflow-y-auto pr-1">
           <div className="space-y-1.5">
             <Label>Statut du suivi</Label>
             <Select value={statut} onValueChange={(v) => setValue('statut', v as FormValues['statut'])}>
@@ -267,7 +267,7 @@ function SuiviMedicalDialog({
             {beneficiaire ? `${beneficiaire.prenom} ${beneficiaire.nom}` : ''} — visite, besoin de traitement et suivi.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[70vh] space-y-4 overflow-y-auto pr-1">
           <label className="flex items-center gap-2.5 rounded-md border border-border p-3 cursor-pointer">
             <Checkbox
               checked={aEteVisite}

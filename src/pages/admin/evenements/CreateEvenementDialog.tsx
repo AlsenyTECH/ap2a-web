@@ -111,7 +111,7 @@ export function CreateEvenementDialog({ open, onOpenChange }: CreateEvenementDia
           <DialogTitle>Nouvel événement</DialogTitle>
           <DialogDescription>Créer un événement et ses séances.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[70vh] space-y-4 overflow-y-auto pr-1">
           <div className="space-y-1.5">
             <Label htmlFor="titre">Titre</Label>
             <Input id="titre" {...register('titre')} />

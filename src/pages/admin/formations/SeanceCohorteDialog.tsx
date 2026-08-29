@@ -140,7 +140,7 @@ export function SeanceCohorteDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[70vh] space-y-4 overflow-y-auto pr-1">
           <div className="space-y-1.5">
             <Label htmlFor="titre_seance">Titre / Sujet de la séance</Label>
             <Input id="titre_seance" placeholder="Ex: Introduction au module 1" {...register('titre_seance')} />
