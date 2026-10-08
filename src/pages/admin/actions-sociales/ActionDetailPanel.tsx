@@ -265,7 +265,13 @@ export function ActionDetailPanel({ idAction }: ActionDetailPanelProps) {
                         </>
                       )}
 
-                      {isMedical && (
+                      {isMedical && b.detail_medical_masque && (
+                        <TableCell colSpan={3} className="text-xs italic text-muted-foreground">
+                          Données médicales masquées (permission « Données médicales » requise)
+                        </TableCell>
+                      )}
+
+                      {isMedical && !b.detail_medical_masque && (
                         <>
                           <TableCell>
                             <span

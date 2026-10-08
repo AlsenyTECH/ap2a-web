@@ -1,3 +1,13 @@
+import type {
+  CategorieAction,
+  MomentIndicateur,
+  NiveauIndicateur,
+  NiveauZone,
+  TypeCible,
+  TypePartenaire,
+  TypeValeurIndicateur,
+} from '@/lib/api/types'
+
 export type BadgeVariant = 'default' | 'secondary' | 'outline' | 'success' | 'warning' | 'destructive'
 
 interface StatusMeta {
@@ -122,6 +132,8 @@ export const permissionLabel: Record<string, string> = {
   GERER_SUIVI: 'Gérer le suivi post-formation',
   GERER_GOUVERNANCE: 'Gérer la gouvernance',
   GERER_COMMUNICATION: 'Gérer la communication',
+  GERER_REFERENTIELS: 'Gérer les référentiels (zones, partenaires, types d\'action)',
+  DONNEES_MEDICALES: 'Voir et saisir les données médicales',
 }
 
 // Fonction du membre au sein d'AP2A - remplace la section géographique
@@ -144,3 +156,74 @@ export const FONCTIONS_DIRECTION = [
   'PRESIDENT', 'VICE_PRESIDENT', 'SECRETAIRE_GENERAL',
   'TRESORIER', 'MEMBRE_BUREAU_EXECUTIF',
 ]
+
+// Référentiels du suivi des actions (libellés alignés sur adhesion/models.py)
+
+export const niveauZoneLabel: Record<NiveauZone, string> = {
+  REGION: 'Région',
+  DEPARTEMENT: 'Département',
+  COMMUNE: 'Commune',
+  QUARTIER: 'Quartier / village',
+}
+
+/** Niveau des sous-zones que l'on peut créer sous une zone de ce niveau (null : aucune). */
+export const niveauEnfant: Record<NiveauZone, NiveauZone | null> = {
+  REGION: 'DEPARTEMENT',
+  DEPARTEMENT: 'COMMUNE',
+  COMMUNE: 'QUARTIER',
+  QUARTIER: null,
+}
+
+export const typePartenaireLabel: Record<TypePartenaire, string> = {
+  ONG: 'ONG / association',
+  ETAT: "Service de l'État",
+  COLLECTIVITE: 'Collectivité territoriale',
+  SANTE: 'Structure de santé',
+  FORMATION: 'Organisme de formation',
+  ENTREPRISE: 'Entreprise / secteur privé',
+  BAILLEUR: 'Bailleur / fondation',
+  COMMUNAUTAIRE: 'Organisation communautaire',
+  AUTRE: 'Autre',
+}
+
+export const typeCibleLabel: Record<TypeCible, string> = {
+  PERSONNE: 'Personne',
+  GROUPE: 'Groupe',
+  ASC: 'ASC',
+  ETABLISSEMENT: 'Établissement',
+  ORGANISATION: 'Organisation',
+  ZONE_SINISTREE: 'Zone sinistrée',
+}
+
+export const categorieActionLabel: Record<CategorieAction, string> = {
+  FORMATION: 'Formation',
+  EDUCATION: 'Éducation',
+  SANTE: 'Santé',
+  URGENCE: 'Urgence',
+  ECONOMIE: 'Insertion économique',
+  SOCIAL: 'Action sociale',
+  INFRASTRUCTURE: 'Infrastructure',
+  AUTRE: 'Autre',
+}
+
+export const typeValeurLabel: Record<TypeValeurIndicateur, string> = {
+  ENTIER: 'Nombre entier',
+  DECIMAL: 'Nombre décimal',
+  MONTANT: 'Montant',
+  POURCENTAGE: 'Pourcentage',
+  BOOLEEN: 'Oui / non',
+  CHOIX: 'Choix dans une liste',
+  TEXTE: 'Texte',
+  DATE: 'Date',
+}
+
+export const momentIndicateurLabel: Record<MomentIndicateur, string> = {
+  REFERENCE: 'Référence (avant)',
+  INTERVENTION: 'Intervention',
+  SUIVI: 'Suivi',
+}
+
+export const niveauIndicateurLabel: Record<NiveauIndicateur, string> = {
+  CIBLE: 'Par cible',
+  ACTION: "Pour l'action entière",
+}

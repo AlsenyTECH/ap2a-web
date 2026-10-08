@@ -12,6 +12,8 @@ export type PermissionCode =
   | 'GERER_SUIVI'
   | 'GERER_GOUVERNANCE'
   | 'GERER_COMMUNICATION'
+  | 'GERER_REFERENTIELS'
+  | 'DONNEES_MEDICALES'
 
 export interface CurrentUser {
   jeton: string
@@ -391,6 +393,8 @@ export interface ActionSocialeDetail {
       date_traitement: string | null
       notes_suivi: string
     } | null
+    /** Vrai quand un détail médical existe mais n'est pas visible (permission DONNEES_MEDICALES). */
+    detail_medical_masque?: boolean
   }>
 }
 
@@ -609,4 +613,102 @@ export interface CompteRendu {
   decisions: string | null
   cree_par: string
   date_creation: string
+}
+
+// =========================================================================
+// Référentiels du suivi des actions
+// =========================================================================
+
+export type NiveauZone = 'REGION' | 'DEPARTEMENT' | 'COMMUNE' | 'QUARTIER'
+
+export interface Zone {
+  id_zone: number
+  nom: string
+  niveau: NiveauZone
+  parent: number | null
+  actif: boolean
+  chemin: string
+  nombre_sous_zones: number
+}
+
+export type TypePartenaire =
+  | 'ONG'
+  | 'ETAT'
+  | 'COLLECTIVITE'
+  | 'SANTE'
+  | 'FORMATION'
+  | 'ENTREPRISE'
+  | 'BAILLEUR'
+  | 'COMMUNAUTAIRE'
+  | 'AUTRE'
+
+export interface Partenaire {
+  id_partenaire: number
+  nom: string
+  sigle: string
+  type_partenaire: TypePartenaire
+  domaines: string
+  nom_contact: string
+  telephone: string
+  email: string
+  adresse: string
+  zone: number | null
+  zone_chemin: string | null
+  notes: string
+  actif: boolean
+  date_creation: string
+}
+
+export type TypeCible = 'PERSONNE' | 'GROUPE' | 'ASC' | 'ETABLISSEMENT' | 'ORGANISATION' | 'ZONE_SINISTREE'
+
+export type CategorieAction =
+  | 'FORMATION'
+  | 'EDUCATION'
+  | 'SANTE'
+  | 'URGENCE'
+  | 'ECONOMIE'
+  | 'SOCIAL'
+  | 'INFRASTRUCTURE'
+  | 'AUTRE'
+
+export type TypeValeurIndicateur =
+  | 'ENTIER'
+  | 'DECIMAL'
+  | 'MONTANT'
+  | 'POURCENTAGE'
+  | 'BOOLEEN'
+  | 'CHOIX'
+  | 'TEXTE'
+  | 'DATE'
+
+export type MomentIndicateur = 'REFERENCE' | 'INTERVENTION' | 'SUIVI'
+export type NiveauIndicateur = 'CIBLE' | 'ACTION'
+
+export interface DefinitionIndicateur {
+  id_indicateur: number
+  type_action: number
+  code: string
+  libelle: string
+  description: string
+  type_valeur: TypeValeurIndicateur
+  unite: string
+  choix: string[]
+  moment: MomentIndicateur
+  niveau: NiveauIndicateur
+  obligatoire: boolean
+  sensible: boolean
+  ordre: number
+  actif: boolean
+}
+
+export interface TypeAction {
+  id_type_action: number
+  code: string
+  libelle: string
+  description: string
+  categorie: CategorieAction
+  types_cible: TypeCible[]
+  est_formation: boolean
+  actif: boolean
+  indicateurs: DefinitionIndicateur[]
 }
