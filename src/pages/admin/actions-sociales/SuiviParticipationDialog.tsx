@@ -22,6 +22,7 @@ import {
   Textarea,
 } from '@/components/ui'
 import { useMettreAJourSuiviMedical, useModifierParticipation } from '@/lib/queries'
+import { useAuth } from '@/lib/auth/AuthContext'
 import type { ActionSocialeDetail, TypeActionSociale } from '@/lib/api/types'
 
 type Beneficiaire = ActionSocialeDetail['beneficiaires'][number]
@@ -80,6 +81,24 @@ export function SuiviParticipationDialog({
   typeAction,
   beneficiaire,
 }: SuiviParticipationDialogProps) {
+  const { hasPermission } = useAuth()
+
+  if (typeAction === 'MEDICAL' && !hasPermission('DONNEES_MEDICALES')) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Suivi médical</DialogTitle>
+            <DialogDescription>
+              Le suivi médical contient des données de santé : il demande la permission « Données médicales ».
+              Demandez-la au super administrateur.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   if (typeAction === 'MEDICAL') {
     return (
       <SuiviMedicalDialog open={open} onOpenChange={onOpenChange} idAction={idAction} beneficiaire={beneficiaire} />
