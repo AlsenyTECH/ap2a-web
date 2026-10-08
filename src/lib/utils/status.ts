@@ -1,5 +1,12 @@
 import type {
   CategorieAction,
+  PhaseTache,
+  PrioriteBesoin,
+  RolePartenaire,
+  StatutAction,
+  StatutActionCible,
+  StatutBesoin,
+  StatutEquipe,
   MomentIndicateur,
   NiveauIndicateur,
   NiveauZone,
@@ -228,3 +235,62 @@ export const niveauIndicateurLabel: Record<NiveauIndicateur, string> = {
   CIBLE: 'Par cible',
   ACTION: "Pour l'action entière",
 }
+
+// Actions et besoins
+
+export const statutActionMeta = meta<StatutAction>({
+  BROUILLON: { label: 'En préparation', variant: 'secondary' },
+  PLANIFIEE: { label: 'Planifiée', variant: 'default' },
+  EN_COURS: { label: 'En cours', variant: 'warning' },
+  TERMINEE: { label: 'Terminée', variant: 'success' },
+  ANNULEE: { label: 'Annulée', variant: 'destructive' },
+})
+
+/** Libellé du bouton qui fait passer une action à ce statut. */
+export const actionVersStatut: Record<StatutAction, string> = {
+  BROUILLON: 'Repasser en préparation',
+  PLANIFIEE: "Planifier (convoque l'équipe)",
+  EN_COURS: "Démarrer l'action",
+  TERMINEE: "Clôturer l'action",
+  ANNULEE: "Annuler l'action",
+}
+
+export const statutActionCibleMeta = meta<StatutActionCible>({
+  PREVUE: { label: 'Prévue', variant: 'secondary' },
+  SERVIE: { label: 'Servie', variant: 'success' },
+  ABSENTE: { label: 'Absente', variant: 'warning' },
+})
+
+export const statutEquipeMeta = meta<StatutEquipe>({
+  PROPOSE: { label: 'Volontaire, à valider', variant: 'warning' },
+  CONFIRME: { label: 'Confirmé', variant: 'success' },
+  DECLINE: { label: 'Non retenu / désisté', variant: 'secondary' },
+})
+
+export const phaseTacheLabel: Record<PhaseTache, string> = {
+  AVANT: 'Avant (préparation)',
+  PENDANT: 'Pendant',
+  APRES: 'Après (clôture, suivi)',
+}
+
+export const rolePartenaireLabel: Record<RolePartenaire, string> = {
+  FORMATEUR: 'Formateur / opérateur de formation',
+  PRESTATAIRE: 'Prestataire (médical, travaux…)',
+  FINANCEUR: 'Financeur',
+  SOUTIEN: 'Soutien technique ou logistique',
+  AUTRE: 'Autre',
+}
+
+export const prioriteBesoinMeta = meta<PrioriteBesoin>({
+  URGENTE: { label: 'Urgente', variant: 'destructive' },
+  HAUTE: { label: 'Haute', variant: 'warning' },
+  MOYENNE: { label: 'Moyenne', variant: 'secondary' },
+  BASSE: { label: 'Basse', variant: 'outline' },
+})
+
+export const statutBesoinMeta = meta<StatutBesoin>({
+  IDENTIFIE: { label: 'À couvrir', variant: 'warning' },
+  PLANIFIE: { label: 'Action planifiée', variant: 'default' },
+  COUVERT: { label: 'Couvert', variant: 'success' },
+  ABANDONNE: { label: 'Abandonné', variant: 'secondary' },
+})

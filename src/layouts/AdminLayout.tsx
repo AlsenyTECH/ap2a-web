@@ -22,6 +22,7 @@ import {
   Landmark,
   SlidersHorizontal,
   Target,
+  CalendarRange,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth/AuthContext'
 import { cn } from '@/lib/utils'
@@ -60,12 +61,14 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    label: 'Événements & Actions sociales',
+    label: 'Activités',
     items: [
+      { to: '/admin/calendrier', label: 'Calendrier', icon: CalendarRange },
+      { to: '/admin/actions', label: 'Actions', icon: ClipboardList, permission: 'GERER_ACTIONS_SOCIALES' },
+      { to: '/admin/cibles', label: 'Cibles & Besoins', icon: Target, permission: 'GERER_CIBLES' },
       { to: '/admin/evenements', label: 'Événements & Assemblées', icon: CalendarDays, permission: 'GERER_EVENEMENTS' },
-      { to: '/admin/actions-sociales', label: 'Actions Sociales & Dons', icon: HeartHandshake, permission: 'GERER_ACTIONS_SOCIALES' },
-      { to: '/admin/cibles', label: 'Cibles & Bénéficiaires', icon: Target, permission: 'GERER_CIBLES' },
       { to: '/admin/referentiels', label: 'Référentiels & Partenaires', icon: SlidersHorizontal, permission: 'GERER_REFERENTIELS' },
+      { to: '/admin/actions-sociales', label: 'Actions sociales (ancien)', icon: HeartHandshake, permission: 'GERER_ACTIONS_SOCIALES' },
     ],
   },
   {

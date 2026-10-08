@@ -16,6 +16,10 @@ import Kits from '@/pages/admin/Kits'
 import AdminActionsSociales from '@/pages/admin/ActionsSociales'
 import Referentiels from '@/pages/admin/Referentiels'
 import Cibles from '@/pages/admin/Cibles'
+import Actions from '@/pages/admin/Actions'
+import ActionFiche from '@/pages/admin/ActionFiche'
+import Calendrier from '@/pages/admin/Calendrier'
+import MesActions from '@/pages/membre/MesActions'
 import SuiviPostFormation from '@/pages/admin/SuiviPostFormation'
 import Journal from '@/pages/admin/Journal'
 import RapportControleAcces from '@/pages/admin/RapportControleAcces'
@@ -68,6 +72,9 @@ export default function App() {
           element={<AdminRoute permission="GERER_ACTIONS_SOCIALES"><AdminActionsSociales /></AdminRoute>}
         />
         <Route path="suivi" element={<AdminRoute permission="GERER_SUIVI"><SuiviPostFormation /></AdminRoute>} />
+        <Route path="actions" element={<AdminRoute permission="GERER_ACTIONS_SOCIALES"><Actions /></AdminRoute>} />
+        <Route path="actions/:idAction" element={<AdminRoute permission="GERER_ACTIONS_SOCIALES"><ActionFiche /></AdminRoute>} />
+        <Route path="calendrier" element={<Calendrier />} />
         <Route path="cibles" element={<AdminRoute permission="GERER_CIBLES"><Cibles /></AdminRoute>} />
         <Route path="referentiels" element={<AdminRoute permission="GERER_REFERENTIELS"><Referentiels /></AdminRoute>} />
         <Route path="journal" element={<AdminRoute permission="VOIR_RAPPORTS"><Journal /></AdminRoute>} />
@@ -97,6 +104,7 @@ export default function App() {
         <Route path="evenements" element={<MesEvenements />} />
         <Route path="notifications" element={<MembreNotifications />} />
         <Route path="historique" element={<Historique />} />
+        <Route path="actions" element={<MesActions />} />
         <Route path="annuaire" element={<Annuaire />} />
         <Route path="gouvernance" element={<Gouvernance />} />
       </Route>
