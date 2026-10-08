@@ -51,9 +51,9 @@ export default function ControleAcces() {
   }
 
   function handleConfirmerEntree() {
-    if (!verifier.data?.id_membre || !idSeance) return
+    if (!verifier.data?.ticket_scan || !idSeance) return
     confirmerEntree.mutate(
-      { id_membre: verifier.data.id_membre, id_seance: Number(idSeance), methode_scan: 'MANUEL' },
+      { ticket_scan: verifier.data.ticket_scan, id_seance: Number(idSeance), methode_scan: 'MANUEL' },
       {
         onSuccess: () => {
           setNumero('')

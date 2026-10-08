@@ -16,6 +16,7 @@ interface ScanPersonne {
   prenom: string
   photo: string | null
   numero_adherent: string
+  ticket_scan: string
 }
 
 /** Id du conteneur caméra, distinct de celui du portail contrôleur pour éviter tout conflit. */
@@ -65,6 +66,7 @@ export function ScannerTab({ idSeance }: ScannerTabProps) {
           prenom: data.prenom,
           photo: data.photo,
           numero_adherent: data.numero_adherent,
+          ticket_scan: data.ticket_scan,
         })
       },
       onError: (error) => {
@@ -103,7 +105,7 @@ export function ScannerTab({ idSeance }: ScannerTabProps) {
   function handleConfirmerEntree() {
     if (!personne || !idSeance) return
     confirmerEntree.mutate(
-      { id_membre: personne.id_membre, id_seance: Number(idSeance), methode_scan: 'QR' },
+      { ticket_scan: personne.ticket_scan, id_seance: Number(idSeance), methode_scan: 'QR' },
       {
         onSuccess: () => {
           setPersonne(null)

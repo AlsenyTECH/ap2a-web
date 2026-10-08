@@ -1,8 +1,8 @@
-import { apiClient, buildDownloadUrl } from './client'
+import { apiClient, openDownload } from './client'
 
 export const certificatsApi = {
-  certificatUrl: (idCohorte: number, idParticipant: number) =>
-    buildDownloadUrl(`/cohorte/${idCohorte}/certificat/${idParticipant}/`),
+  telechargerCertificat: (idCohorte: number, idParticipant: number) =>
+    openDownload(`/cohorte/${idCohorte}/certificat/${idParticipant}/`),
 
   verifierCertificat: (numeroCertificat: string) =>
     apiClient

@@ -40,6 +40,7 @@ interface CarteVerifiee {
   prenom: string
   numero_adherent: string
   photo: string | null
+  ticket_scan: string
 }
 
 type ScanPhase = 'idle' | 'starting' | 'active' | 'verifying' | 'result'
@@ -129,6 +130,7 @@ export default function Scan() {
           prenom: data.prenom,
           numero_adherent: data.numero_adherent,
           photo: data.photo,
+          ticket_scan: data.ticket_scan,
         })
         setPhase('result')
         toast.success('Carte reconnue')
@@ -143,7 +145,7 @@ export default function Scan() {
   function handleConfirmerEntreeScan() {
     if (!scanResult || !idSeance) return
     confirmerEntree.mutate(
-      { id_membre: scanResult.id_membre, id_seance: Number(idSeance), methode_scan: 'QR' },
+      { ticket_scan: scanResult.ticket_scan, id_seance: Number(idSeance), methode_scan: 'QR' },
       {
         onSuccess: () => {
           toast.success('Entrée confirmée')
@@ -189,9 +191,9 @@ export default function Scan() {
   }
 
   function handleConfirmerEntreeManuel() {
-    if (!verifierManuel.data?.id_membre || !idSeance) return
+    if (!verifierManuel.data?.ticket_scan || !idSeance) return
     confirmerEntree.mutate(
-      { id_membre: verifierManuel.data.id_membre, id_seance: Number(idSeance), methode_scan: 'MANUEL' },
+      { ticket_scan: verifierManuel.data.ticket_scan, id_seance: Number(idSeance), methode_scan: 'MANUEL' },
       {
         onSuccess: () => {
           toast.success('Entrée confirmée')
