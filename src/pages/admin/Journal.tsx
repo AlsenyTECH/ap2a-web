@@ -20,7 +20,9 @@ import {
   Pagination,
 } from '@/components/ui'
 import { useJournal, useStatistiques } from '@/lib/queries'
+import { toast } from 'sonner'
 import { dashboardApi } from '@/lib/api/dashboard'
+import { apiErrorMessage } from '@/lib/api/client'
 import { formatDateTime } from '@/lib/utils/format'
 
 interface Filtres {
@@ -50,14 +52,13 @@ export default function Journal() {
   }
 
   function exporter(type: 'journal' | 'statistiques', format: 'excel' | 'pdf') {
-    const url = dashboardApi.exportRapportUrl({
+    dashboardApi.exporterRapport({
       type,
       format,
       type_action: appliedFiltres.type_action || undefined,
       date_debut: appliedFiltres.date_debut || undefined,
       date_fin: appliedFiltres.date_fin || undefined,
-    })
-    window.open(url, '_blank')
+    }).catch((error) => toast.error(apiErrorMessage(error, "Impossible de lancer l'export")))
   }
 
   return (

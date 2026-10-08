@@ -5,6 +5,10 @@ export const authApi = {
   login: (email: string, mot_de_passe: string) =>
     apiClient.post<CurrentUser>('/login/', { email, mot_de_passe }).then((r) => r.data),
 
+  /** Jeton passé explicitement : la session locale est effacée sans attendre cette requête. */
+  logout: (jeton: string) =>
+    apiClient.post('/logout/', null, { headers: { Authorization: `Bearer ${jeton}` } }).then(() => undefined),
+
   changerMotDePasse: (ancien_mot_de_passe: string, nouveau_mot_de_passe: string) =>
     apiClient
       .post('/changer-mot-de-passe/', { ancien_mot_de_passe, nouveau_mot_de_passe })

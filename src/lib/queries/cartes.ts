@@ -35,6 +35,10 @@ export function useVerifierManuel(numeroAdherent: string, enabled: boolean) {
     queryFn: () => cartesApi.verifierManuel(numeroAdherent),
     enabled: enabled && numeroAdherent.trim().length > 0,
     retry: false,
+    // Chaque recherche renvoie un ticket de scan à usage unique : ne
+    // jamais resservir une réponse en cache (ticket déjà utilisé/expiré).
+    gcTime: 0,
+    staleTime: 0,
   })
 }
 

@@ -515,10 +515,12 @@ export interface MonProfilMembre {
   date_adhesion: string
   statut_adhesion: StatutAdhesion
   photo: string | null
-  /** Carte virtuelle QR : toujours présente, indépendante de la carte physique. */
+  /**
+   * Carte virtuelle QR : toujours présente, indépendante de la carte physique.
+   * Son contenu n'est disponible qu'en QR rotatif (`cartesApi.qrActuel`).
+   */
   carte_qr: {
     statut_carte: StatutCarte
-    contenu_carte: string
   }
   /** Carte physique NFC remise par l'association : peut être absente. */
   carte_physique: {

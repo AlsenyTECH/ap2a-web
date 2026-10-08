@@ -45,6 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   function logout() {
+    // Révocation côté serveur (le jeton devient inutilisable même s'il a
+    // été copié) ; la session locale est effacée sans attendre la réponse.
+    const jeton = localStorage.getItem(TOKEN_KEY)
+    if (jeton) {
+      authApi.logout(jeton).catch(() => {})
+    }
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(USER_KEY)
     setUser(null)

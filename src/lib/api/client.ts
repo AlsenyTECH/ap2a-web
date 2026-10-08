@@ -44,12 +44,20 @@ export function apiErrorCode(error: unknown): string | undefined {
   return undefined
 }
 
-/** Construit une URL de téléchargement direct authentifiée via ?jeton= (pour les liens <a>/window.open). */
-export function buildDownloadUrl(path: string, extraParams: Record<string, string> = {}) {
-  const token = localStorage.getItem(TOKEN_KEY) ?? ''
+/**
+ * Ouvre un téléchargement direct (fichier en `Content-Disposition: attachment`).
+ * Un lien ouvert par le navigateur ne peut pas porter l'en-tête Authorization :
+ * on demande au backend un lien signé de courte durée (~1 min), valable pour
+ * ce seul chemin et ce seul compte - le jeton de session n'apparaît jamais
+ * dans l'URL (ni dans les journaux, l'historique ou l'en-tête Referer).
+ */
+export async function openDownload(path: string, extraParams: Record<string, string> = {}) {
+  const { data } = await apiClient.post<{ telechargement: string }>('/telechargement/lien/', { chemin: path })
   const base = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8000/api'
-  const params = new URLSearchParams({ jeton: token, ...extraParams })
-  return `${base}${path}?${params.toString()}`
+  const params = new URLSearchParams({ ...extraParams, telechargement: data.telechargement })
+  // Navigation dans l'onglet courant : la réponse étant une pièce jointe, la
+  // page reste affichée (et pas de blocage de popup après un appel asynchrone).
+  window.location.assign(`${base}${path}?${params.toString()}`)
 }
 
 /**

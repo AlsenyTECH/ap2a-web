@@ -200,11 +200,16 @@ export const formationsApi = {
       .then((r) => r.data)
   },
 
-  confirmerPresence: (payload: {
-    id_participant: number
-    id_seance_cohorte: number
-    methode_scan: 'QR' | 'NFC' | 'MANUEL'
-  }) =>
+  /**
+   * QR/NFC : `ticket_scan` renvoyé par la vérification du badge.
+   * MANUEL (gestionnaires des formations uniquement) : `id_participant`.
+   */
+  confirmerPresence: (
+    payload: { id_seance_cohorte: number } & (
+      | { methode_scan: 'QR' | 'NFC'; ticket_scan: string }
+      | { methode_scan: 'MANUEL'; id_participant: number }
+    ),
+  ) =>
     apiClient
       .post<{
         confirme: boolean

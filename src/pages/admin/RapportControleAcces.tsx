@@ -22,7 +22,9 @@ import {
   TableRow,
 } from '@/components/ui'
 import { useControleurs, useRapportControleAcces } from '@/lib/queries'
+import { toast } from 'sonner'
 import { dashboardApi } from '@/lib/api/dashboard'
+import { apiErrorMessage } from '@/lib/api/client'
 import { formatDateTime } from '@/lib/utils/format'
 import type { ScanControleAcces } from '@/lib/api/types'
 
@@ -55,14 +57,13 @@ export default function RapportControleAcces() {
   }
 
   function exporter(format: 'excel' | 'pdf') {
-    const url = dashboardApi.exportRapportUrl({
+    dashboardApi.exporterRapport({
       type: 'controle_acces',
       format,
       id_controleur: appliedFiltres.id_controleur || undefined,
       date_debut: appliedFiltres.date_debut || undefined,
       date_fin: appliedFiltres.date_fin || undefined,
-    })
-    window.open(url, '_blank')
+    }).catch((error) => toast.error(apiErrorMessage(error, "Impossible de lancer l'export")))
   }
 
   return (

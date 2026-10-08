@@ -1,4 +1,4 @@
-import { apiClient, buildDownloadUrl } from './client'
+import { apiClient, openDownload } from './client'
 import type { DashboardStats, JournalPage, ScanControleAcces, Statistiques } from './types'
 
 export const dashboardApi = {
@@ -31,7 +31,7 @@ export const dashboardApi = {
 
   stats: () => apiClient.get<DashboardStats>('/dashboard/stats/').then((r) => r.data),
 
-  exportRapportUrl: (params: {
+  exporterRapport: (params: {
     type: 'statistiques' | 'evenement' | 'journal' | 'controle_acces'
     format: 'excel' | 'pdf'
     id_evenement?: string
@@ -46,6 +46,6 @@ export const dashboardApi = {
     if (params.id_controleur) extraParams.id_controleur = params.id_controleur
     if (params.date_debut) extraParams.date_debut = params.date_debut
     if (params.date_fin) extraParams.date_fin = params.date_fin
-    return buildDownloadUrl('/admin/rapports/export/', extraParams)
+    return openDownload('/admin/rapports/export/', extraParams)
   },
 }
