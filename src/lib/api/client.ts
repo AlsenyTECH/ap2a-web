@@ -30,8 +30,16 @@ apiClient.interceptors.response.use(
 /** Extrait un message d'erreur exploitable d'une réponse API (clé `erreur` côté backend). */
 export function apiErrorMessage(error: unknown, fallback = 'Une erreur est survenue'): string {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as { erreur?: string; detail?: string } | undefined
-    return data?.erreur ?? data?.detail ?? fallback
+    if (!error.response) {
+      // Pas de réponse : réseau coupé, ou serveur gratuit en train de redémarrer (~1 min).
+      return 'Serveur injoignable : vérifiez la connexion ou réessayez dans une minute.'
+    }
+    const data = error.response.data as { erreur?: string; detail?: string } | undefined
+    if (data?.erreur ?? data?.detail) return (data?.erreur ?? data?.detail) as string
+    const code = error.response.status
+    if (code === 404) return `${fallback} : fonction introuvable sur le serveur (404), qui n'est peut-être pas à jour.`
+    if (code >= 500) return `${fallback} : erreur interne du serveur (${code}).`
+    return `${fallback} (code ${code}).`
   }
   return fallback
 }
