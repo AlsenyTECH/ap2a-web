@@ -28,6 +28,7 @@ import { typeCibleLabel } from '@/lib/utils/status'
 import type { Cible, TypeCible } from '@/lib/api/types'
 import { CibleDialog } from './CibleDialog'
 import { CibleRecherche } from './CibleRecherche'
+import { BesoinsCible } from './BesoinsCible'
 
 const COLLECTIFS: TypeCible[] = ['GROUPE', 'ASC', 'ETABLISSEMENT', 'ORGANISATION', 'ZONE_SINISTREE']
 
@@ -143,6 +144,10 @@ export function CibleFicheSheet({ idCible, onOpenChange, onOuvrir }: CibleFicheS
                 )}
               </div>
               {cible.notes && <p className="whitespace-pre-line rounded-md bg-muted/50 p-3 text-sm">{cible.notes}</p>}
+
+              <Separator />
+
+              <BesoinsCible cible={cible} />
 
               <Separator />
 

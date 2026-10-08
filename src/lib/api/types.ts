@@ -767,7 +767,7 @@ export interface AppartenanceCible {
 }
 
 export interface EvenementHistoriqueCible {
-  nature: 'ACTION_SOCIALE' | 'FORMATION'
+  nature: 'ACTION' | 'ACTION_SOCIALE' | 'FORMATION'
   id: number
   titre: string
   type: string
@@ -778,6 +778,7 @@ export interface EvenementHistoriqueCible {
 export interface CibleFiche extends Cible {
   appartenances: AppartenanceCible[]
   historique: EvenementHistoriqueCible[]
+  besoins: Omit<Besoin, 'id_cible' | 'cible' | 'type_cible' | 'zone_chemin'>[]
 }
 
 export interface DoublonPotentiel {
@@ -797,4 +798,153 @@ export interface ResultatImportCibles {
   appartenances: number
   doublons: { ligne: number; nom: string; ressemble_a: CibleResume; raisons: string[] }[]
   erreurs: string[]
+}
+
+// =========================================================================
+// Actions (avant / pendant / après), besoins des cibles, calendrier
+// =========================================================================
+
+export type StatutAction = 'BROUILLON' | 'PLANIFIEE' | 'EN_COURS' | 'TERMINEE' | 'ANNULEE'
+export type StatutActionCible = 'PREVUE' | 'SERVIE' | 'ABSENTE'
+export type StatutEquipe = 'PROPOSE' | 'CONFIRME' | 'DECLINE'
+export type PhaseTache = 'AVANT' | 'PENDANT' | 'APRES'
+export type RolePartenaire = 'FORMATEUR' | 'PRESTATAIRE' | 'FINANCEUR' | 'SOUTIEN' | 'AUTRE'
+export type PrioriteBesoin = 'BASSE' | 'MOYENNE' | 'HAUTE' | 'URGENTE'
+export type StatutBesoin = 'IDENTIFIE' | 'PLANIFIE' | 'COUVERT' | 'ABANDONNE'
+
+/** Valeur d'indicateur telle que renvoyée par l'API (selon son type). */
+export type ValeurIndicateurJson = number | string | boolean | null
+
+export interface ActionResume {
+  id_action: number
+  titre: string
+  type_action: number
+  type_action_libelle: string
+  categorie: CategorieAction
+  statut: StatutAction
+  date_debut: string
+  date_fin: string | null
+  lieu: string
+  zone_chemin: string | null
+  responsable: string | null
+  appel_volontaires: boolean
+  nombre_cibles: number | null
+  nombre_cibles_servies: number | null
+  nombre_equipe: number | null
+  taches_restantes: number | null
+}
+
+export interface ActionCibleLigne {
+  id_action_cible: number
+  id_cible: number
+  nom_complet: string
+  type_cible: TypeCible
+  telephone: string
+  zone_chemin: string | null
+  besoin: string | null
+  statut: StatutActionCible
+  date_intervention: string | null
+  notes: string
+  /** Par id d'indicateur (en texte). */
+  valeurs: Record<string, ValeurIndicateurJson>
+}
+
+export interface ActionFiche extends ActionResume {
+  description: string
+  zone: number | null
+  id_responsable: number | null
+  budget_prevu: string | null
+  budget_realise: string | null
+  volontaires_souhaites: number | null
+  bilan: string
+  transitions_possibles: StatutAction[]
+  types_cible: TypeCible[]
+  indicateurs: Omit<DefinitionIndicateur, 'type_action' | 'ordre' | 'actif'>[]
+  indicateurs_masques: boolean
+  valeurs_action: Record<string, ValeurIndicateurJson>
+  cibles: ActionCibleLigne[]
+  partenaires: {
+    id_action_partenaire: number
+    id_partenaire: number
+    nom: string
+    type_partenaire: TypePartenaire
+    role: RolePartenaire
+    montant_apport: string | null
+    notes: string
+  }[]
+  equipe: {
+    id_membre_equipe: number
+    id_membre: number
+    nom: string
+    numero_adherent: string
+    telephone: string | null
+    role: string
+    statut: StatutEquipe
+    volontaire: boolean
+    present: boolean | null
+  }[]
+  taches: {
+    id_tache: number
+    titre: string
+    phase: PhaseTache
+    responsable: string | null
+    id_responsable: number | null
+    echeance: string | null
+    faite: boolean
+  }[]
+}
+
+export interface PageActions {
+  resultats: ActionResume[]
+  total: number
+  page: number
+  pages: number
+}
+
+export interface Besoin {
+  id_besoin: number
+  id_cible: number
+  cible: string
+  type_cible: TypeCible
+  zone_chemin: string | null
+  description: string
+  type_action: number | null
+  type_action_libelle: string | null
+  priorite: PrioriteBesoin
+  statut: StatutBesoin
+  date_identification: string
+  notes: string
+}
+
+export interface ElementCalendrier {
+  nature: 'ACTION' | 'EVENEMENT' | 'FORMATION'
+  id: number
+  titre: string
+  sous_titre: string
+  debut: string
+  fin: string
+  statut: string
+  lieu: string
+}
+
+export interface ActionMembre {
+  id_action: number
+  titre: string
+  type_action_libelle: string
+  description: string
+  date_debut: string
+  date_fin: string | null
+  lieu: string
+  zone_chemin: string | null
+  statut: StatutAction
+}
+
+export interface MesActions {
+  appels: (ActionMembre & { volontaires_souhaites: number | null; nombre_equipe: number })[]
+  missions: (ActionMembre & {
+    id_membre_equipe: number
+    role: string
+    statut_equipe: StatutEquipe
+    present: boolean | null
+  })[]
 }

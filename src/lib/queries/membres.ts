@@ -17,8 +17,11 @@ export function useSections() {
   return useQuery({ queryKey: membresKeys.sections, queryFn: membresApi.sections })
 }
 
-export function useMembres(params: { q?: string; statut_carte?: StatutCarte; id_section?: number; fonction?: FonctionAssociation; tri?: string } = {}) {
-  return useQuery({ queryKey: membresKeys.list(params), queryFn: () => membresApi.liste(params) })
+export function useMembres(
+  params: { q?: string; statut_carte?: StatutCarte; id_section?: number; fonction?: FonctionAssociation; tri?: string } = {},
+  enabled = true,
+) {
+  return useQuery({ queryKey: membresKeys.list(params), queryFn: () => membresApi.liste(params), enabled })
 }
 
 export function useMembre(idMembre: number | null) {

@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { IdCard, User, GraduationCap, CalendarDays, History, Bell, LogOut, BookUser, Landmark } from 'lucide-react'
+import { IdCard, User, GraduationCap, CalendarDays, History, Bell, LogOut, BookUser, Landmark, HandHeart } from 'lucide-react'
 import { useAuth } from '@/lib/auth/AuthContext'
 import { cn } from '@/lib/utils'
 import { initials } from '@/lib/utils/format'
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { to: '/membre/profil', label: 'Mon profil', icon: User },
   { to: '/membre/formations', label: 'Formations', icon: GraduationCap },
   { to: '/membre/evenements', label: 'Événements', icon: CalendarDays },
+  { to: '/membre/actions', label: 'Actions & missions', icon: HandHeart },
   { to: '/membre/annuaire', label: 'Annuaire', icon: BookUser },
   { to: '/membre/gouvernance', label: 'Gouvernance', icon: Landmark },
   { to: '/membre/notifications', label: 'Notifications', icon: Bell },
