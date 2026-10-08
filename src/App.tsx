@@ -15,6 +15,7 @@ import CertificatsKits from '@/pages/admin/CertificatsKits'
 import Kits from '@/pages/admin/Kits'
 import AdminActionsSociales from '@/pages/admin/ActionsSociales'
 import Referentiels from '@/pages/admin/Referentiels'
+import Cibles from '@/pages/admin/Cibles'
 import SuiviPostFormation from '@/pages/admin/SuiviPostFormation'
 import Journal from '@/pages/admin/Journal'
 import RapportControleAcces from '@/pages/admin/RapportControleAcces'
@@ -67,6 +68,7 @@ export default function App() {
           element={<AdminRoute permission="GERER_ACTIONS_SOCIALES"><AdminActionsSociales /></AdminRoute>}
         />
         <Route path="suivi" element={<AdminRoute permission="GERER_SUIVI"><SuiviPostFormation /></AdminRoute>} />
+        <Route path="cibles" element={<AdminRoute permission="GERER_CIBLES"><Cibles /></AdminRoute>} />
         <Route path="referentiels" element={<AdminRoute permission="GERER_REFERENTIELS"><Referentiels /></AdminRoute>} />
         <Route path="journal" element={<AdminRoute permission="VOIR_RAPPORTS"><Journal /></AdminRoute>} />
         <Route
