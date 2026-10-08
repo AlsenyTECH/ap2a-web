@@ -134,6 +134,7 @@ export const permissionLabel: Record<string, string> = {
   GERER_COMMUNICATION: 'Gérer la communication',
   GERER_REFERENTIELS: 'Gérer les référentiels (zones, partenaires, types d\'action)',
   DONNEES_MEDICALES: 'Voir et saisir les données médicales',
+  GERER_CIBLES: 'Gérer les cibles (personnes, groupes, établissements…)',
 }
 
 // Fonction du membre au sein d'AP2A - remplace la section géographique

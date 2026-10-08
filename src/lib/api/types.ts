@@ -14,6 +14,7 @@ export type PermissionCode =
   | 'GERER_COMMUNICATION'
   | 'GERER_REFERENTIELS'
   | 'DONNEES_MEDICALES'
+  | 'GERER_CIBLES'
 
 export interface CurrentUser {
   jeton: string
@@ -711,4 +712,89 @@ export interface TypeAction {
   est_formation: boolean
   actif: boolean
   indicateurs: DefinitionIndicateur[]
+}
+
+// =========================================================================
+// Cibles (personnes, groupes, ASC, établissements, organisations, zones)
+// =========================================================================
+
+export interface Cible {
+  id_cible: number
+  type_cible: TypeCible
+  nom: string
+  prenom: string
+  nom_complet: string
+  sexe: '' | 'M' | 'F'
+  date_naissance: string | null
+  numero_identification: string
+  sous_type: string
+  responsable: string
+  effectif: number | null
+  telephone: string
+  email: string
+  zone: number | null
+  zone_chemin: string | null
+  adresse: string
+  latitude: string | null
+  longitude: string | null
+  notes: string
+  membre: number | null
+  membre_numero_adherent: string | null
+  actif: boolean
+  date_creation: string
+  nombre_appartenances: number
+  nombre_actions: number
+}
+
+/** Résumé d'une cible (doublons, appartenances). */
+export interface CibleResume {
+  id_cible: number
+  type_cible: TypeCible
+  nom_complet: string
+  telephone: string
+  zone_chemin: string | null
+  date_naissance: string | null
+  sous_type: string
+}
+
+export interface AppartenanceCible {
+  id_appartenance: number
+  /** L'autre côté du lien : le collectif pour une personne, la personne pour un collectif. */
+  cible: CibleResume
+  role: string
+  date_debut: string | null
+  date_fin: string | null
+}
+
+export interface EvenementHistoriqueCible {
+  nature: 'ACTION_SOCIALE' | 'FORMATION'
+  id: number
+  titre: string
+  type: string
+  date: string | null
+  statut: string
+}
+
+export interface CibleFiche extends Cible {
+  appartenances: AppartenanceCible[]
+  historique: EvenementHistoriqueCible[]
+}
+
+export interface DoublonPotentiel {
+  cible: CibleResume
+  raisons: string[]
+}
+
+export interface PageCibles {
+  resultats: Cible[]
+  total: number
+  page: number
+  pages: number
+}
+
+export interface ResultatImportCibles {
+  crees: number
+  appartenances: number
+  doublons: { ligne: number; nom: string; ressemble_a: CibleResume; raisons: string[] }[]
+  erreurs: string[]
 }

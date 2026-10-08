@@ -21,6 +21,7 @@ import {
   BookUser,
   Landmark,
   SlidersHorizontal,
+  Target,
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth/AuthContext'
 import { cn } from '@/lib/utils'
@@ -63,6 +64,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { to: '/admin/evenements', label: 'Événements & Assemblées', icon: CalendarDays, permission: 'GERER_EVENEMENTS' },
       { to: '/admin/actions-sociales', label: 'Actions Sociales & Dons', icon: HeartHandshake, permission: 'GERER_ACTIONS_SOCIALES' },
+      { to: '/admin/cibles', label: 'Cibles & Bénéficiaires', icon: Target, permission: 'GERER_CIBLES' },
       { to: '/admin/referentiels', label: 'Référentiels & Partenaires', icon: SlidersHorizontal, permission: 'GERER_REFERENTIELS' },
     ],
   },
